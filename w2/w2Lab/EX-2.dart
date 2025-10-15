@@ -12,6 +12,8 @@ class BankAccount {
     void withdraw(double amount) {
       if (amount <= 0) {
         throw Exception("Negative withdrawal not allowed");
+      } else if (amount > balance) {
+        throw Exception("Insufficient balance");
       } else {
         _balance -= amount;
       }

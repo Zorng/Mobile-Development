@@ -60,6 +60,12 @@ class Robot {
       }
     }
   }
+
+  @override
+  String toString() {
+    
+    return "x = $x, y = $y, direction = $direction";
+  }
   
 }
  

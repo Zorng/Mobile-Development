@@ -18,11 +18,11 @@ void main() {
     if(pizzaPrices.containsKey(k)) {
       total += pizzaPrices[k] ?? 0;
     } else {
-      badInput += (k + " ");
+      badInput += (k + " pizza ");
     }
   }
 
   print("Total: \$$total");
 
-  print(badInput + "pizza is not on the menu");
+  print(badInput + "is not on the menu");
 }

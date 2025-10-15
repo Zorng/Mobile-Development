@@ -3,13 +3,17 @@ bool isBalanced(String text) {
 
   for (int i = 0; i < text.length; i++) {
     switch (text[i]) {
-      case '[' || '(' || '{' : 
+      case '[' || '(' || '{': 
         stack.add(text[i]);
       case ']' || ')' || '}':
       {
         if(stack.isEmpty) {
           return false;
-        } else if ((stack.last == '[' && text[i] != ']') || (stack.last == '(' && text[i] != ')') || (stack.last == '{' && text[i] != '}')){
+        } else if (
+          (stack.last == '[' && text[i] != ']')||
+          (stack.last == '(' && text[i] != ')')||
+          (stack.last == '{' && text[i] != '}')
+        ){
           return false;
         } else {
           stack.removeLast();
@@ -19,7 +23,6 @@ bool isBalanced(String text) {
   }
 
   return stack.isEmpty ? true : false;
-
 }
 
 void main() {
