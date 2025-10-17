@@ -13,7 +13,7 @@ class Address {
 
 enum OrderStatus { deliver, pickup }
 
-class Product{
+class Product {
   int _productId;
   String _name;
   double _unitPrice;
@@ -41,7 +41,7 @@ class Store {
   String _phone;
   Address address;
   Map<int, Customer> _customers = {};
-  //{{order_id, customer_id}, order} 
+  //{{order_id, customer_id}, order}
   List<Order> _orders = [];
   Map<int, Product> _products = {};
 
@@ -60,7 +60,7 @@ class Store {
 
   void registerProducts(List<Product> products) {
     products.forEach((product) {
-      if(_products.containsKey(product._productId)) {
+      if (_products.containsKey(product._productId)) {
         throw ArgumentError("Duplicated product id");
       }
       _products.addAll({product._productId: product});
@@ -69,7 +69,7 @@ class Store {
 
   void registerOrder(Order inputOrder) {
     _orders.forEach((order) {
-      if(order._customerId == inputOrder._orderId){
+      if (order._orderId == inputOrder._orderId) {
         throw ArgumentError("Duplicated order id");
       }
     });
@@ -98,9 +98,9 @@ class Customer {
   Customer(this._customerId, this._name, this._phone);
 
   Order createOrder(int orderId, OrderStatus status) {
-    if(status == OrderStatus.deliver) {
+    if (status == OrderStatus.deliver) {
       return Order.deliver(orderId, _customerId);
-    } 
+    }
     return Order.pickup(orderId, _customerId);
   }
 
@@ -112,23 +112,50 @@ name: $_name
 phone: $_phone
 ''';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is Customer &&
+      other._customerId == _customerId &&
+      other._name == _name &&
+      other._phone == _phone;
+
+  @override
+  int get hashCode => Object.hash(_customerId, _name, _phone);
 }
 
 class Order {
   final int _orderId;
   final int _customerId;
   OrderStatus _status;
-  Map<int, OrderProduct> orderProduct = {};
+  List<OrderProduct> orderProducts = [];
 
-  Order.deliver(this._orderId, this._customerId): this._status = OrderStatus.deliver;
-  Order.pickup(this._orderId, this._customerId): this._status = OrderStatus.pickup;
-  
+  Order.deliver(this._orderId, this._customerId)
+      : this._status = OrderStatus.deliver;
+  Order.pickup(this._orderId, this._customerId)
+      : this._status = OrderStatus.pickup;
+
+
+  void addProduct(List<OrderProduct> orderProduct){
+    orderProducts.addAll(orderProduct);
+  }
+
   @override
-  String toString() {
-    return '''
+  bool operator ==(Object other) =>
+      other is Order &&
+      other._orderId == _orderId &&
+      other._customerId == _customerId &&
+      other._status == _status;
 
-total: \$xx
-''';
+  @override
+  int get hashCode => Object.hash(_orderId, _customerId, _status);
+
+  double getTotal(){
+    double total = 0;
+    orderProducts.forEach((orderProduct){
+      total += orderProduct.total;
+    });
+    return total;
   }
 }
 
@@ -136,12 +163,10 @@ class OrderProduct {
   Product _product;
   int _quantity;
 
-  OrderProduct(
-    this._product,
-    int quantity
-  ):assert(quantity > 0, "Quantity cannot be zero or less"),
-    assert(quantity < 1000, "Quantity shall not exceed 1000"),
-    _quantity = quantity;
+  OrderProduct(this._product, int quantity)
+      : assert(quantity > 0, "Quantity cannot be zero or less"),
+        assert(quantity < 1000, "Quantity shall not exceed 1000"),
+        _quantity = quantity;
 
   double get total => this._product._unitPrice * this._quantity;
 }

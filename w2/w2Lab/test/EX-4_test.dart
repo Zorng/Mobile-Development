@@ -21,10 +21,11 @@ void main() {
   });
 
   test("Duplicated product key registeration:", (){
+    Product imposter = Product(4, "Godzilla", 2000.0);
     expect(() => myStore.registerProducts([
-      Product(4, "Godzilla", 2000.0)
+      imposter
     ]), throwsA(
-      predicate((e) => e is ArgumentError && e.message.toString().contains("Duplicated product key"))
+      predicate((e) => e is ArgumentError && e.message.toString().contains("Duplicated product id"))
     ));
   });
 
@@ -46,14 +47,32 @@ void main() {
     ));
   });
 
-
+  test("Correctly register order", (){
     Order o1 = c1.createOrder(1, OrderStatus.deliver);
     Order o2 = c1.createOrder(2, OrderStatus.pickup);
-  test("Correctly register order", (){
+    myStore.registerOrder(o1);
+    myStore.registerOrder(o2);
     expect(myStore.orders, [
       Order.deliver(1, 1),
       Order.pickup(2, 1)
     ]);
+  });
+
+  test("register duplicated order", (){
+    expect(()=>myStore.registerOrder(Order.pickup(1,2)), 
+      throwsA(
+        predicate((e)=> e is ArgumentError && e.message.toString().contains("Duplicated order id"))
+        )
+    );
+  });
+
+  test("Total of an order", (){
+    Order o4 = c1.createOrder(4, OrderStatus.deliver);
+    o4.addProduct([
+      OrderProduct(Product(1, "Book", 2.0), 5),
+      OrderProduct(Product(2, "Pen", 0.7), 2)
+    ]);
+    expect(o4.getTotal(), equals(11.4));
   });
 
 }
