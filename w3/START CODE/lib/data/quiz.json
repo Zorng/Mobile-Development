@@ -1,0 +1,26 @@
+{
+    "id":"",
+    "name":"",
+    "questions":
+    [
+        {
+            "id": "",
+            "title": "Capital of France?",
+            "choices": ["Paris", "London", "Rome"],
+            "goodChoice": "Paris",
+            "point": 10
+        },
+        {
+            "id":"",
+            "title": "2 + 2 = ?",
+            "choices": ["2", "4", "5"],
+            "goodChoice": "4",
+            "point": 60
+        }
+    ],   
+    "answers":
+    [
+        {"id":"", "answer":""},
+        {"id":"", "answer":""}
+    ]
+}
