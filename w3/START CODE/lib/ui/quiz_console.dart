@@ -17,7 +17,7 @@ class QuizConsole {
         print("--- Quiz Finished ---");
         return;
       }
-      quiz.addPlayer(inputName);
+      Player p = quiz.addPlayer(inputName);
 
       for (var question in quiz.questions) {
       print('Question: ${question.title} - ( ${question.point} points)');
@@ -27,9 +27,8 @@ class QuizConsole {
 
       // Check for null input
       if (userInput != null && userInput.isNotEmpty) {
-        Answer answer = Answer(id: uuid.v1() ,question: question, answerChoice: userInput);
-        quiz.players.firstWhere((p) => p.name == inputName).answers = [];
-        quiz.players.firstWhere((p) => p.name == inputName).addAnswer(answer);
+        Answer answer = Answer(id: uuid.v1() ,questionId: question.id, answerChoice: userInput);
+        p.addAnswer(answer);
       } else {
         print('No answer entered. Skipping question.');
       }
@@ -37,13 +36,19 @@ class QuizConsole {
       print('');
     }
 
-    double scoreInPercentage = quiz.players.firstWhere((p) => p.name == inputName).getScoreInPercentage();
+    quiz.addSubmission(p);
 
-    print('${inputName}, your score in percentage: ${scoreInPercentage.toStringAsFixed(2)} %');
-    print('${inputName}, your score in point is: ${quiz.players.firstWhere((p) => p.name == inputName).getTotalScore()}');
-    quiz.players.forEach((player){
-      print("Player: ${player.name}       Score: ${player.getTotalScore()}");
+    ({double score, double percentageScore}) playerResult = quiz.playerScore(inputName);
+
+    print('${inputName}, your score in percentage: ${playerResult.percentageScore.toStringAsFixed(2)}');
+    print('${inputName}, your score in point is: ${playerResult.score}');
+    print("=======");
+    quiz.submissions.forEach((s){
+      ({double score, double percentageScore}) playerResult = quiz.playerScore(s.player.name);
+      print("PLAYER: ${s.player.name}       Score: ${playerResult.score}");
     });
+    print("=======");
+
     } while (true);
 
      

@@ -6,43 +6,26 @@ import '../lib/data/QuizRepository.dart';
 // dart test w3/START\ CODE/test/quiz_test.dart
 
 void main() {
-  QuizRepository qr = QuizRepository("w3/START CODE/lib/data/quiz.json");
-  Quiz q1 = qr.readQuiz();
+  QuizRepository qr = QuizRepository("w3/START CODE/lib/data/Quiz.json");
+  Quiz q1 = qr.readQuiz("2072f172-af03-11f0-8de9-0242ac120002");
 
-  test("test 1: ", (){
-    q1.addPlayer("bro");
-    q1.players.last.addAnswer(Answer(id: uuid.v1(), question: q1.questions[0], answerChoice: "Paris"));
-    q1.players.last.addAnswer(Answer(id: uuid.v1(), question: q1.questions[1], answerChoice: "4"));
-
-    expect(q1.players.last.getTotalScore(), 70);
-    expect(q1.players.last.getScoreInPercentage().toStringAsFixed(2), (70/70 * 100).toStringAsFixed(2));
-
+  test("test 1: test existing player data", (){
+  
+    expect(q1.playerScore("Zorng"), (score: 70, percentageScore: (70/70)*100));
   }); 
 
 
-  test("test 2: ", (){
-    q1.addPlayer("Aahhaha");
-    q1.players.last.addAnswer(Answer(id: uuid.v1(), question: q1.questions[0], answerChoice: "Rome"));
-    q1.players.last.addAnswer(Answer(id: uuid.v1(), question: q1.questions[1], answerChoice: "4"));
-
-    expect(q1.players.last.getTotalScore(), 60);
-    expect(q1.players.last.getScoreInPercentage().toStringAsFixed(2), (60/70 * 100).toStringAsFixed(2));
+  test("test 2: test existing player data", (){
+    expect(q1.playerScore("Loki"), (score: 60, percentageScore: (60/70)*100));
 
   }); 
 
-  test("test 3: same player 'Aahhaha', multiple attempts. Last attempts override",(){
-    q1.addPlayer("Dragona");
-    
-    q1.players.firstWhere((p) => p.name == "Dragona").addAnswer(Answer(id: uuid.v1(), question: q1.questions[0], answerChoice: "Rome"));
-    q1.players.firstWhere((p) => p.name == "Dragona").addAnswer(Answer(id: uuid.v1(), question: q1.questions[1], answerChoice: "2"));
-    
-    q1.addPlayer("Aahhaha");
-    q1.players.firstWhere((p) => p.name == "Aahhaha").answers = [];
-    q1.players.firstWhere((p) => p.name == "Aahhaha").addAnswer(Answer(id: uuid.v1(), question: q1.questions[0], answerChoice: "Paris"));
-    q1.players.firstWhere((p) => p.name == "Aahhaha").addAnswer(Answer(id: uuid.v1(), question: q1.questions[1], answerChoice: "4"));
+  test("test 3: same player 'Loki', multiple attempts. Last attempts override",(){
+    Player p = q1.addPlayer("Loki");
+    p.addAnswer(Answer(id: uuid.v1(), questionId: "1", answerChoice: "Paris"));
+    p.addAnswer(Answer(id: uuid.v1(), questionId: "2", answerChoice: "Bad at Math"));
 
-    expect(q1.players.firstWhere((p) => p.name == "Aahhaha").getTotalScore(), 70);
-    expect(q1.players.firstWhere((p) => p.name == "Aahhaha").getScoreInPercentage().toStringAsFixed(2), (70/70 * 100).toStringAsFixed(2));
+    expect(q1.playerScore("Loki"), (score: 10, percentageScore: (10/70)*100));
   });
 
 

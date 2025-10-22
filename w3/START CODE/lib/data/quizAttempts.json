@@ -1,150 +1,105 @@
-[
-    [
-        {
-            "id": "6bc3a341-ae9c-11f0-850f-b1ba9271cba2",
-            "name": "Zrororo",
-            "questions": [
-                {
-                    "id": "6bc37c30-ae9c-11f0-850f-b1ba9271cba2",
-                    "title": "Capital of France?",
-                    "choices": [
-                        "Paris",
-                        "London",
-                        "Rome"
-                    ],
-                    "goodChoice": "Paris",
-                    "point": "10"
-                },
-                {
-                    "id": "6bc3a340-ae9c-11f0-850f-b1ba9271cba2",
-                    "title": "2 + 2 = ?",
-                    "choices": [
-                        "2",
-                        "4",
-                        "5"
-                    ],
-                    "goodChoice": "4",
-                    "point": "60"
-                }
-            ],
-            "answer": [
-                {
-                    "74bf4a30-ae9c-11f0-850f-b1ba9271cba2": "Paris"
-                },
-                {
-                    "7578d630-ae9c-11f0-850f-b1ba9271cba2": "4"
-                }
-            ]
-        },
-        {
-            "id": "6bc3a341-ae9c-11f0-850f-b1ba9271cba2",
-            "name": "Oh La La",
-            "questions": [
-                {
-                    "id": "6bc37c30-ae9c-11f0-850f-b1ba9271cba2",
-                    "title": "Capital of France?",
-                    "choices": [
-                        "Paris",
-                        "London",
-                        "Rome"
-                    ],
-                    "goodChoice": "Paris",
-                    "point": "10"
-                },
-                {
-                    "id": "6bc3a340-ae9c-11f0-850f-b1ba9271cba2",
-                    "title": "2 + 2 = ?",
-                    "choices": [
-                        "2",
-                        "4",
-                        "5"
-                    ],
-                    "goodChoice": "4",
-                    "point": "60"
-                }
-            ],
-            "answer": [
-                {
-                    "7dd9c3c0-ae9c-11f0-850f-b1ba9271cba2": "London"
-                },
-                {
-                    "7ead1950-ae9c-11f0-850f-b1ba9271cba2": "4"
-                }
-            ]
-        }
-    ],
-    [
-        {
-            "id": "49d90d81-ae9f-11f0-abdf-ab8de93e4365",
-            "name": "BBBB",
-            "questions": [
-                {
-                    "id": "49d8bf60-ae9f-11f0-abdf-ab8de93e4365",
-                    "title": "Capital of France?",
-                    "choices": [
-                        "Paris",
-                        "London",
-                        "Rome"
-                    ],
-                    "goodChoice": "Paris",
-                    "point": "10"
-                },
-                {
-                    "id": "49d90d80-ae9f-11f0-abdf-ab8de93e4365",
-                    "title": "2 + 2 = ?",
-                    "choices": [
-                        "2",
-                        "4",
-                        "5"
-                    ],
-                    "goodChoice": "4",
-                    "point": "60"
-                }
-            ],
-            "answer": [
-                {
-                    "4d4f96a0-ae9f-11f0-abdf-ab8de93e4365": "Paris"
-                },
-                {
-                    "4e07ea20-ae9f-11f0-abdf-ab8de93e4365": "4"
-                }
-            ]
-        },
-        {
-            "id": "49d90d81-ae9f-11f0-abdf-ab8de93e4365",
-            "name": "uuuuu",
-            "questions": [
-                {
-                    "id": "49d8bf60-ae9f-11f0-abdf-ab8de93e4365",
-                    "title": "Capital of France?",
-                    "choices": [
-                        "Paris",
-                        "London",
-                        "Rome"
-                    ],
-                    "goodChoice": "Paris",
-                    "point": "10"
-                },
-                {
-                    "id": "49d90d80-ae9f-11f0-abdf-ab8de93e4365",
-                    "title": "2 + 2 = ?",
-                    "choices": [
-                        "2",
-                        "4",
-                        "5"
-                    ],
-                    "goodChoice": "4",
-                    "point": "60"
-                }
-            ],
-            "answer": [
-                {
-                    "51ecec80-ae9f-11f0-abdf-ab8de93e4365": "99"
-                },
-                {
-                    "52d06eb0-ae9f-11f0-abdf-ab8de93e4365": "5"
-                }
-            ]
-        }
-    ]
-]
+{
+ "quizzes": [
+  {
+   "id": "2072f172-af03-11f0-8de9-0242ac120002",
+   "questions": [
+    {
+     "id": "1",
+     "title": "Capital of France?",
+     "choices": [
+      "Paris",
+      "London",
+      "Rome"
+     ],
+     "goodChoice": "Paris",
+     "point": 10
+    },
+    {
+     "id": "2",
+     "title": "2 + 2 = ?",
+     "choices": [
+      "2",
+      "4",
+      "5"
+     ],
+     "goodChoice": "Paris",
+     "point": 60
+    }
+   ],
+   "submissions": [
+    {
+     "id": "731332b0-af5e-11f0-acac-cfb957a6b1a9",
+     "player": {
+      "name": "Zorng",
+      "answers": [
+       {
+        "id": "7220e370-af5e-11f0-acac-cfb957a6b1a9",
+        "questionId": "1",
+        "answerChoice": "ll"
+       },
+       {
+        "id": "73130ba0-af5e-11f0-acac-cfb957a6b1a9",
+        "questionId": "2",
+        "answerChoice": "1"
+       }
+      ]
+     }
+    },
+    {
+     "id": "2",
+     "player": {
+      "name": "Loki",
+      "answers": [
+       {
+        "id": "1",
+        "questionId": "1",
+        "answerChoice": "Rome"
+       },
+       {
+        "id": "2",
+        "questionId": "2",
+        "answerChoice": "4"
+       }
+      ]
+     }
+    },
+    {
+     "id": "6db1f090-af5e-11f0-acac-cfb957a6b1a9",
+     "player": {
+      "name": "x",
+      "answers": [
+       {
+        "id": "6cc4f880-af5e-11f0-acac-cfb957a6b1a9",
+        "questionId": "1",
+        "answerChoice": "Paris"
+       },
+       {
+        "id": "6db1c980-af5e-11f0-acac-cfb957a6b1a9",
+        "questionId": "2",
+        "answerChoice": "4"
+       }
+      ]
+     }
+    },
+    {
+     "id": "7d863761-af5e-11f0-acac-cfb957a6b1a9",
+     "player": {
+      "name": "hah",
+      "answers": [
+       {
+        "id": "7c572d40-af5e-11f0-acac-cfb957a6b1a9",
+        "questionId": "1",
+        "answerChoice": "xmas"
+       },
+       {
+        "id": "7d863760-af5e-11f0-acac-cfb957a6b1a9",
+        "questionId": "2",
+        "answerChoice": "4"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

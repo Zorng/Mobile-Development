@@ -3,33 +3,46 @@ var uuid = Uuid();
 
 class Player{
   final String _name;
-  List <Answer> answers =[];
-  Player(this._name);
+  List<Answer> answers = [];
+  Player.loadPlayer({required name, required this.answers}): _name = name;
+  Player.createPlayer({required name}): _name = name;
 
   void addAnswer(Answer asnwer) {
      this.answers.add(asnwer);
   }
 
-  int getTotalScore() {
-    int correctScore =0;
-    for(Answer answer in answers){
-      if (answer.isGood()) {
-        correctScore += answer.question.point;
-      }
-    }
-    return correctScore;
-  }
 
-  double getScoreInPercentage(){
-    int totalSCore =0;
-    for(Answer answer in answers){
-      totalSCore += answer.question.point;
-    }
-    return ((getTotalScore()/ totalSCore)*100);
-  }
+  // int getTotalScore() {
+  //   int correctScore =0;
+  //   for(Answer answer in answers){
+  //     if (answer.isGood()) {
+  //       correctScore += answer.question.point;
+  //     }
+  //   }
+  //   return correctScore;
+  // }
+
+  // double getScoreInPercentage(){
+  //   int totalSCore =0;
+  //   for(Answer answer in answers){
+  //     totalSCore += answer.question.point;
+  //   }
+  //   return ((getTotalScore()/ totalSCore)*100);
+  // }
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "answers": answers.map((a) => a.toJson()).toList()
+  };
+
 
   String get name => _name;
 
+  @override
+  String toString() {
+    
+    return "($_name, $answers)";
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -57,90 +70,115 @@ Question: ${this.title} - ( ${this.point} points)
 Choices: ${this.choices}''';
   }
 
-//holy nightmare T-T
-  String toJson(){
-    return 
-'''
-{
-  "id": "$id",
-  "title": "$title",
-  "choices": ${choices.map((c) => "\"$c\"").toList()},
-  "goodChoice": "$goodChoice",
-  "point": "$point"
-}''';
-  }
+  Map<String, dynamic> toJson() => {
+    "id":id,
+    "title": title,
+    "choices": choices,
+    "goodChoice": "Paris",
+    "point": point
+  };
+
 }
 
 class Answer{
   final String id;
-  final Question question;
+  final String questionId;
   final String answerChoice;
   
 
-  Answer({required this.id, required this.question, required this.answerChoice});
+  Answer({required this.id, required this.questionId, required this.answerChoice});
 
-  bool isGood(){
-    return this.answerChoice == question.goodChoice;
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "questionId": questionId,
+    "answerChoice": answerChoice
+  };
+
+  @override
+  String toString() {
+    return "($id, $questionId, $answerChoice)";
   }
   
+}
+
+class Submission {
+  final id;
+  Player player;
+  Submission({required this.id, required this.player});
+
+
+  Map<String, dynamic> toJson() => {
+    "id":id,
+    "player":player.toJson()
+  };
+  
+  @override
+  String toString() {
+    return "$id, $player";
+  }
 }
 
 class Quiz{
   final String id;
   List<Question> questions;
-  Set<Player> players = {};
+  List<Submission> submissions;
 
-  Quiz({required this.id, required this.questions});
+  Quiz({required this.id, required this.questions, required this.submissions});
 
-  void addPlayer(String playerName) {
-    // if(players.contains(Player(playerName))) {
-    //   throw ArgumentError("Duplicated player name not allowed");
-    // }
-
-
-    players.addAll({Player(playerName)});
-  
+  void addSubmission(Player player) {
+    for(int i = 0; i < submissions.length; i++) {
+      if(submissions[i].player.name == player.name) {
+        print("Duplicated xxxxxx");
+        //overwrite duplicated submission
+        submissions.removeAt(i);
+        submissions.insert(i, Submission(id: uuid.v1(), player: player));
+        
+        return;
+      }
+    }
+    print("not here");
+    submissions.add(Submission(id: uuid.v1(), player: player));
   }
 
-  String toJson(){
-
-    String res = "";
-    players.forEach((p){
-      if(p != players.last) {
-        res += '''
-
-{
-  "id": "$id",
-  "name": "${p.name}",
-  "questions":
-  ${questions.map((q) =>"${q.toJson()}").toList()}
-,
-  "answer":
-  
-      ${p.answers.map((a) =>"\{\"${a.id}\" :\"${a.answerChoice}\"\}").toList()}
-  
-},
-''';
+  Player addPlayer(String inputName) {
+    for(int i = 0; i < submissions.length; i++) {
+      if(submissions[i].player.name == inputName) {
+        print("Duplicated input name");
+        submissions[i].player.answers=[];
+        return submissions[i].player;
       }
-      else {
-        res += '''
-{
-  "id": "$id",
-  "name": "${p.name}",
-  "questions":
-  ${questions.map((q) =>"${q.toJson()}").toList()}
-,
-  "answer":
-  
-      ${p.answers.map((a) =>"\{\"${a.id}\" :\"${a.answerChoice}\"\}").toList()}
-  
-}
-''';
-      }
+    }
+    print("bad");
+    return Player.createPlayer(name:inputName);
+  }
+
+  ({double score, double percentageScore}) playerScore(String name) {
+    double totalScore = 0;
+    double availableScore = 0;
+    Submission s = submissions.firstWhere((s) => s.player.name == name);
+    
+    s.player.answers.forEach((a){
+      questions.forEach((q){
+          if(q.id == a.questionId){
+            availableScore += q.point;
+            if(q.goodChoice == a.answerChoice){
+              totalScore += q.point;
+            } 
+          } 
+      });
     });
-    return "[" + res + "]";
+    
+    return (score: totalScore,  percentageScore: (totalScore/availableScore) * 100);
+  }
 
 
+
+  Map<String, dynamic> toJson() => {
+    "id":id,
+    "questions": questions.map((e) => e.toJson()).toList(),
+    "submissions": submissions.map((e) => e.toJson()).toList()
+  };
+}
 //this works but it is not really efficient. a lot of manual work and no type checking
 
 //the wrote file are list of list of players during each session, instead of list of all players ever played.
@@ -163,6 +201,6 @@ class Quiz{
   
 // }
 // ''';
-  }
-}
+
+
 
