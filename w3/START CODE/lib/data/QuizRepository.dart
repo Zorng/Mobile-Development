@@ -46,7 +46,7 @@ class QuizRepository{
     //if the json is a list of objects, we need to use list to cotain the read data
     var data = jsonDecode(content);
 
-    String quizContent = quiz.toJson();
+    String quizContent = quiz.toJson().toString();
     
     List<dynamic>?newData;
     try {

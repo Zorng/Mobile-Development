@@ -28,7 +28,8 @@ class QuizConsole {
       // Check for null input
       if (userInput != null && userInput.isNotEmpty) {
         Answer answer = Answer(id: uuid.v1() ,question: question, answerChoice: userInput);
-        quiz.players.last.addAnswer(answer);
+        quiz.players.firstWhere((p) => p.name == inputName).answers = [];
+        quiz.players.firstWhere((p) => p.name == inputName).addAnswer(answer);
       } else {
         print('No answer entered. Skipping question.');
       }
@@ -36,10 +37,10 @@ class QuizConsole {
       print('');
     }
 
-    double scoreInPercentage = quiz.players.last.getScoreInPercentage();
+    double scoreInPercentage = quiz.players.firstWhere((p) => p.name == inputName).getScoreInPercentage();
 
     print('${inputName}, your score in percentage: ${scoreInPercentage.toStringAsFixed(2)} %');
-    print('${inputName}, your score in point is: ${quiz.players.last.getTotalScore()}');
+    print('${inputName}, your score in point is: ${quiz.players.firstWhere((p) => p.name == inputName).getTotalScore()}');
     quiz.players.forEach((player){
       print("Player: ${player.name}       Score: ${player.getTotalScore()}");
     });

@@ -29,6 +29,15 @@ class Player{
   }
 
   String get name => _name;
+
+
+  @override
+  bool operator ==(Object other) =>
+      other is Player &&
+      other.name == name;
+
+  @override
+  int get hashCode => Object.hash( _name , _name, _name);
 }
 
 class Question{
@@ -84,7 +93,13 @@ class Quiz{
   Quiz({required this.id, required this.questions});
 
   void addPlayer(String playerName) {
+    // if(players.contains(Player(playerName))) {
+    //   throw ArgumentError("Duplicated player name not allowed");
+    // }
+
+
     players.addAll({Player(playerName)});
+  
   }
 
   String toJson(){
